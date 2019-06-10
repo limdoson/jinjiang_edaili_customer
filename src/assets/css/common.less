@@ -1,0 +1,76 @@
+@import './_b.less';
+body {
+	background: #f1f1f1;
+}
+.f-s {
+    display: -webkit-flex;
+    -webkit-justify-content: flex-start;
+    -webkit-align-items: center;
+}
+.f-e {
+    display: -webkit-flex;
+    -webkit-justify-content: flex-end;
+    -webkit-align-items: center;
+}
+.s-b {
+    display: -webkit-flex;
+    -webkit-justify-content: space-between;
+    -webkit-align-items: center;
+}
+.s-a {
+    display: -webkit-flex;
+    -webkit-justify-content: space-around;
+    -webkit-align-items: center;
+}
+.c-c {
+    display: -webkit-flex;
+    -webkit-justify-content: center;
+    -webkit-align-items: center;
+}
+.search-input {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+}
+// 产品广告样式
+.product-ad {
+	padding: 10px;
+	background: #fff;
+	margin-bottom: 8px;
+	.title {
+		margin-bottom: 10px;
+		border-left: 4px solid @themeColor;
+		text-indent: 1em;
+		font-size: 14px;
+		color: @themeColor;
+	}
+	img {
+		border-radius: 2px;
+	}
+	.swiper-slide {
+		margin-right: 10px;
+	}
+	
+	//多图多列
+	.rows-pics {
+		flex-wrap: wrap;
+		li {
+			width: 46%;
+			margin: 0 2% 10px;
+		}
+	}
+	//3图广告
+	.three-pics {
+		dt {
+			width: 60%;
+			margin-right: 10px;
+		}
+		dd {
+			img {
+				margin-bottom: 10px;
+			}
+			
+		}
+	}
+}
