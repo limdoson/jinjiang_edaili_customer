@@ -52,7 +52,11 @@
 					'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
 					'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
 					'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
-				]
+				],
+				// 横向swiper配置
+				options : {
+					width : 80
+				}
 			}
 		},
 		created  () {

@@ -10,6 +10,9 @@ import 'vant/lib/index.css';
 
 Vue.use(Vant);
 
+import utils from '@u/index'
+Vue.prototype.utils = utils;
+
 
 Vue.config.productionTip = false
 

@@ -5,3 +5,98 @@
 		margin-bottom: 6px;
 	}
 }
+//购物车页面样式
+.shop-car {
+	padding-bottom: 180px;
+	.list {
+		li {
+			padding: 10px;
+			background: #fff;
+			.bb();
+			img {
+				width: 70px;
+				margin : 0 15px;
+				.br();
+			}
+			.product-info {
+				-webkit-flex : 1;
+				font-size: 13px;
+				h1,p{
+					margin-bottom: 6px;
+				}
+				.attr {
+					font-size: .8rem;
+					color: #ccc;
+				}
+			}
+		}
+	}
+	footer {
+		position: fixed;
+		bottom: 50px;
+		width: ~"calc(100% - 10px)";
+		padding: 0px 0px 0px 10px;
+		background: #fff;
+		.total-price {
+			margin-left: 10px;
+			color: red;
+			font-size: 13px;
+		}
+		.van-button {
+			border-radius: 0;
+		}
+	}
+}
+//商品分类样式
+.cls {
+	aside {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 90px;
+		background: #fff;
+		height: ~"calc(100% - 50px)";
+		.cls-list {
+			height: ~"calc(100% - 50px)";
+		}
+		.swiper-slide {
+			text-align: center;
+			font-size: 12px;
+			line-height: 50px;
+		}
+		.cls_active {
+			background: #f1f1f1;
+		}
+	}
+	main {
+		padding-left: 95px;
+		padding-right: 5px;
+		.sub-cls {
+			padding: 5px;
+			h1 {
+				font-size: 13px;
+				margin-bottom: 10px;
+			}
+			ul {
+				border-radius: 8px;
+				background: #fff;
+				text-align: center;
+				-webkit-flex-wrap : wrap;
+				img {
+					display: inline-block;
+					width: 40px;
+					border-radius: 4px;
+				}
+				li {
+					padding: 10px 0;
+					width: 33.33%;
+					font-size: 12px;
+					color: #555;
+					// margin-bottom: 10px;
+				}
+			}
+			
+			
+		}
+	}
+}

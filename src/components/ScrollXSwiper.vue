@@ -13,6 +13,9 @@
 			data : {
 				type : Array,
 				default : null
+			},
+			options : {
+				type : Object
 			}
 		},
 		components: {
@@ -21,13 +24,11 @@
 		},
 		data () {
 			return {
-				options : {
-					width : 80
-				}
+				
 			}
 		},
 		created  () {
-			
+			console.log(this.options)
 		},
 		//mounted () {},
 		methods : {

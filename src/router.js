@@ -42,7 +42,7 @@ let router = new Router({
 })
 
 router.afterEach((to, from, next) => {
-	console.log(to.meta.title);
+	
 	document.title = to.meta.title;
 })
 

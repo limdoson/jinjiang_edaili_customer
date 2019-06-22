@@ -38,7 +38,7 @@
 		</div>
 		<div class="product-ad" v-if="type == 'scroll-swiper'">
 			<h1 class="title" v-if='title'>{{title}}</h1>
-			<scroll-x-swiper :data='list'></scroll-x-swiper>
+			<scroll-x-swiper :data='list' :options='options'></scroll-x-swiper>
 		</div>
 	</div>
 </template>
@@ -76,7 +76,10 @@
 		data () {
 			return {
 				li_width : '46%',//用来处理多行多图广告的li宽度
-				class_flag : null
+				class_flag : null,
+				options : {
+					width : 80
+				}
 			}
 		},
 		created  () {
