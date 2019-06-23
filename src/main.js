@@ -10,6 +10,8 @@ import 'vant/lib/index.css';
 
 Vue.use(Vant);
 
+console.log('git')
+
 import utils from '@u/index'
 Vue.prototype.utils = utils;
 
