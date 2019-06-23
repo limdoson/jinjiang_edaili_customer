@@ -109,7 +109,11 @@
 			},
 			//删除购物车项
 			deleteItem () {
-				
+				this.utils.confirmAlert('您确定删除所选数据吗？',() => {
+					this.list = this.list.filter(item => {
+						return !item.check;
+					})
+				})
 			}
 		},
 		computed: {

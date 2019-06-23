@@ -10,11 +10,13 @@ import 'vant/lib/index.css';
 
 Vue.use(Vant);
 
-console.log('git test')
 
 import utils from '@u/index'
 Vue.prototype.utils = utils;
 
+//引入全局注册组件方法
+import vComponent from '@u/reg-components'
+Vue.use(vComponent);
 
 Vue.config.productionTip = false
 

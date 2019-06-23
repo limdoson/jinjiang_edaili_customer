@@ -37,6 +37,13 @@ let router = new Router({
 					component : () => import('./views/User'),
 				}
 			]
+		},{
+			path : '/order',
+			meta : {
+				title : '我的订单'
+			},
+			name : 'order',
+			component : () => import('./views/user/Order')
 		}
     ]
 })
