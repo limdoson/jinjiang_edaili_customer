@@ -35,22 +35,22 @@
 				</router-link>
 			</h1>
 			<ul class=" s-b">
-				<li>
+				<router-link tag='li' to='/order/1'>
 					<i class="iconfont">&#xe634;</i>
 					<p>待付款</p>
-				</li>
-				<li>
+				</router-link>
+				<router-link tag='li' to='/order/2'>
 					<i class="iconfont">&#xe649;</i>
 					<p>待发货</p>
-				</li>
-				<li>
+				</router-link>
+				<router-link tag='li' to='/order/3'>
 					<i class="iconfont">&#xe633;</i>
 					<p>待收货</p>
-				</li>
-				<li>
+				</router-link>
+				<router-link tag='li' to='/order/4'>
 					<i class="iconfont">&#xe6cb;</i>
 					<p>已完成</p>
-				</li>
+				</router-link>
 			</ul>
 		</div>
 		<!-- 菜单 -->

@@ -38,7 +38,7 @@ let router = new Router({
 				}
 			]
 		},{
-			path : '/order',
+			path : '/order/:flag?',
 			meta : {
 				title : '我的订单'
 			},
