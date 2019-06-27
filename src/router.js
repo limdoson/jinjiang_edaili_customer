@@ -37,13 +37,27 @@ let router = new Router({
 					component : () => import('./views/User'),
 				}
 			]
-		},{
+		},{//我的订单
 			path : '/order/:flag?',
 			meta : {
 				title : '我的订单'
 			},
 			name : 'order',
 			component : () => import('./views/user/Order')
+		},{//收货地址管理
+			path : '/adr-manage',
+			meta : {
+				title : '收货地址管理'
+			},
+			name : 'adr-manage',
+			component : () => import('./views/user/AdrManage')
+		},{//地址添加/编辑
+			path : '/adr-add/:id?',
+			meta : {
+				title : '添加/编辑地址'
+			},
+			name : 'adr-add',
+			component : () => import('./views/user/AdrAdd')
 		}
     ]
 })

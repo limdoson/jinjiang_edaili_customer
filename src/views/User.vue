@@ -3,6 +3,9 @@
 		<header>
 			<div class="bg"></div>
 			<div class="container">
+				<router-link tag='h1' class='apply' to=''>
+					申请成为分销
+				</router-link>
 				<div class="user-info f-s">
 					<img src="../assets/img/3.png" alt="">
 					<div>
@@ -55,7 +58,7 @@
 		</div>
 		<!-- 菜单 -->
 		<ul class="menu">
-			<router-link tag='li' to='' class='s-b'>
+			<router-link tag='li' to='/adr-manage' class='s-b'>
 				<div >
 					<i class="iconfont" style="color: #b49cfb;">&#xe6d9;</i>
 					收货地址管理

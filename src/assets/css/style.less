@@ -109,11 +109,25 @@
 			background: -webkit-linear-gradient(left, #7048f3, #a612f5);
 		}
 		.container {
+			position: relative;
 			width: 82%;
 			margin: -85px auto 0;
 			padding: 20px;
 			border-radius: 10px;
 			background: -webkit-linear-gradient(left, #825cff, #b936fe);
+			.apply {
+				position: absolute;
+				top: 20px;
+				right: 0;
+				width: 100px;
+				height: 30px;
+				background: #ffa463;
+				border-radius: 20px 0 0 20px;
+				color: #8c5500;
+				font-size: 13px;
+				line-height: 30px;
+				text-align: center;
+			}
 			.user-info {
 				color: #fff;
 				img {
@@ -213,5 +227,18 @@
 				font-size: 13px;
 			}
 		}
+	}
+}
+.adr-manage {
+	footer {
+		position: fixed;
+		bottom: 0px;
+		width: 100%;
+		height: 40px;
+		background: @themeColor;
+		color: #fff;
+		font-size: 14px;
+		text-align: center;
+		line-height: 40px;
 	}
 }

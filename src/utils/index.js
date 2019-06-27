@@ -5,20 +5,17 @@ class Utils extends Vue {
         super();
 		
     }
-    
-	confirmAlert (message, confirmHandle, cancleHandle) {
-		this.$dialog.confirm({
-			title : '提示',
-			message : message,
-			confirmButtonColor : 'orangered',
+	msg (msg,cb) {
+		this.$dialog.alert({
+			message: msg,
+			confirmButtonColor :'orangered'
 		}).then(()=>{
-			confirmHandle && confirmHandle()
-		}).catch(()=>{
-			cancleHandle && cancleHandle()
+			cb && cb();
 		})
 	}
-	
-	
+	toast(msg) {
+		this.$toast(msg);
+	}
 }
 
 export default new Utils;

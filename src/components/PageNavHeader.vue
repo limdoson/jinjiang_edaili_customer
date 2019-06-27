@@ -3,13 +3,21 @@
 		:title="$route.meta.title"
 		left-text="返回"
 		left-arrow
+		:right-text="rightText"
 		@click-left="onClickLeft"
-		@click-right="onClickRight"
-	/>
+		@click-right="onClickRight">
+		<slot></slot>
+	</van-nav-bar>
 </template>
 
 <script>
 	export default {
+		props : {
+			rightText :{
+				type : String,
+				default : null
+			}
+		},
 		data () {
 			return {
 				
@@ -25,7 +33,7 @@
 				this.$router.back();
 			},
 			onClickRight () {
-				
+				this.$emit('clickRight')
 			}
 		}
 	}
