@@ -3,34 +3,31 @@
 		<header>
 			<div class="bg"></div>
 			<div class="container">
-				<router-link tag='h1' class='apply' to='/apply'>
-					申请成为分销
-				</router-link>
-				<div class="user-info f-s">
+				<!-- <div class="user-info f-s">
 					<img src="../assets/img/3.png" alt="">
 					<div>
 						<h1>用户名称</h1>
 						<p>普通会员</p>
 					</div>
-				</div>
+				</div> -->
 				<ul class="account-info s-b">
 					<li>
 						<h1>100.00</h1>
-						<p>余额</p>
+						<p>累计收益</p>
 					</li>
 					<router-link tag='li' to='/collection'>
-						<h1>3</h1>
-						<p>收藏</p>
+						<h1>300.00</h1>
+						<p>冻结收益</p>
 					</router-link>
-					<router-link tag='li' to='/ticket'>
-						<h1>3</h1>
-						<p>优惠券</p>
+					<router-link tag='li' to='/share-qrcode'>
+						<h1>300.00</h1>
+						<p>可提现收益</p>
 					</router-link>
 				</ul>
 			</div>
 		</header>
 		<!-- 订单Tab -->
-		<div class="order-tab">
+		<!-- <div class="order-tab">
 			<h1 class="s-b">
 				<p>我的订单</p>
 				<router-link to='/order' tag='span'>
@@ -55,31 +52,31 @@
 					<p>已完成</p>
 				</router-link>
 			</ul>
-		</div>
+		</div> -->
 		<!-- 菜单 -->
 		<ul class="menu">
-			<router-link tag='li' to='/recharge' class='s-b'>
+			<router-link tag='li' to='/cash' class='s-b'>
 				<div >
 					<i class="iconfont" style="color: #ef5f46;">&#xe624;</i>
-					充值
+					提现
 				</div>
 				<i class="iconfont right-arrow">&#xe641;</i>
 			</router-link>
-			<router-link tag='li' to='/adr-manage' class='s-b'>
+			<router-link tag='li' to='/team' class='s-b'>
 				<div >
 					<i class="iconfont" style="color: #b49cfb;">&#xe6d9;</i>
-					收货地址管理
+					我的团队
 				</div>
 				<i class="iconfont right-arrow">&#xe641;</i>
 			</router-link>
-			<router-link tag='li' to='/ticket' class='s-b'>
+			<router-link tag='li' to='/share-qrcode' class='s-b'>
 				<div>
 					<i class="iconfont" style="color: #d69051;">&#xe637;</i>
-					优惠券领取中心
+					推广二维码
 				</div>
 				<i class="iconfont right-arrow">&#xe641;</i>
 			</router-link>
-			<router-link tag='li' to='/msg' class='s-b'>
+			<!-- <router-link tag='li' to='/msg' class='s-b'>
 				<div>
 					<i class="iconfont" style="color: #9c9494;">&#xe626;</i>
 					系统消息
@@ -99,7 +96,7 @@
 					浏览记录
 				</div>
 				<i class="iconfont right-arrow">&#xe641;</i>
-			</router-link>
+			</router-link> -->
 		</ul>
 	</div>
 </template>

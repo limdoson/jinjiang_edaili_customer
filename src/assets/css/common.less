@@ -150,6 +150,34 @@ body {
 	line-height: 35px;
 	color: #fff;
 }
+.red {
+	color: red;
+}
 .delete {
 	background: @themeColor;
+}
+.collect-list {
+	-webkit-flex-wrap : wrap;
+	li {
+		width: 40%;
+		padding: 10px 5%;
+		text-align: center;
+		font-size: 12px;
+		background: #fff;
+		.bb();
+		h1 {
+			width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		img {
+			width: 100px;
+			margin: 0 auto 10px;
+			border-radius: 5px;
+		}
+		&:nth-child(2n-1) {
+			box-shadow: -1px 0px inset #f1f1f1;
+		}
+	}
 }
