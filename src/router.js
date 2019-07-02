@@ -148,6 +148,30 @@ let router = new Router({
 			},
 			name : 'cash',
 			component : () => import('./views/fx/Cash')
+		},{//商品列表
+			path : '/product-list/:id',
+			meta :{
+				title : '商品列表'
+			},
+			component : () => import('./views/product/ProductList')
+		},{//商品详情
+			path : '/product-detail/:id',
+			meta :{
+				title : '商品详情'
+			},
+			component : () => import('./views/product/ProductDetail')
+		},{//订单确认
+			path : '/curfirm-order',
+			meta :{
+				title : '确认订单'
+			},
+			component : () => import('./views/order/CurfirmOrder')
+		},{//支付成功
+			path : '/pay-success',
+			meta :{
+				title : '支付成功'
+			},
+			component : () => import('./components/PaySuccess')
 		}
     ]
 })

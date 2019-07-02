@@ -1,20 +1,24 @@
 <template>
 	<div class="colletion page">
 		<page-nav-header></page-nav-header>
-		<ul class="collect-list f-s">
-			<li>
-				<img src="../../assets/img/1.jpg" alt="">
-				<h1>商品名称商品名称商品名称商品名称</h1>
-			</li>
-			<li>
-				<img src="../../assets/img/1.jpg" alt="">
-				<h1>商品名称商品名称商品名称商品名称</h1>
-			</li>
-			<li>
-				<img src="../../assets/img/1.jpg" alt="">
-				<h1>商品名称商品名称商品名称商品名称</h1>
-			</li>
-		</ul>
+		<van-list
+			v-model="loading"
+			:finished="finished"
+			finished-text="没有更多了"
+			@load="onLoad">
+			<ul class="collect-list f-s">
+				<router-link tag='li' :to="'/product-detail/'+item.id" v-for='item in list' :key='item.id'>
+					<img :src="item.goods_img" alt="">
+					<h1>{{item.goods_name}}</h1>
+					
+				</router-link>
+			</ul>
+			<ul class="list f-s" v-if='list'>
+				
+			</ul>
+			<none v-else></none>
+		</van-list>
+		
 	</div>
 </template>
 
@@ -23,7 +27,11 @@
 		components: {},
 		data () {
 			return {
-				
+				loading :false,
+				finished :false,
+				list : null,
+				page :1,
+				limit :20
 			}
 		},
 		created () {
@@ -31,7 +39,27 @@
 		},
 		
 		methods : {
-			
+			onLoad () {
+				this.http.post('/v1/c_goods/getCollect',{
+					page :this.page,
+					limit :this.limit
+				}).then(res => {
+					if (res.data.data.length) {//有数据
+						if (this.page == 1) {
+							this.list = res.data.data;
+
+						} else {
+							this.list = this.list.concat(res.data.data);
+							
+						}
+						this.page ++;
+						this.loading = false;
+					} else {//没有数据
+						this.finished = true;
+						this.loading = false;
+					}
+				})
+			}
 		},
 	}
 </script>

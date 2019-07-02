@@ -79,13 +79,13 @@
 				</div>
 				<i class="iconfont right-arrow">&#xe641;</i>
 			</router-link>
-			<router-link tag='li' to='/msg' class='s-b'>
+			<!-- <router-link tag='li' to='/msg' class='s-b'>
 				<div>
 					<i class="iconfont" style="color: #9c9494;">&#xe626;</i>
 					系统消息
 				</div>
 				<i class="iconfont right-arrow">&#xe641;</i>
-			</router-link>
+			</router-link> -->
 			<router-link tag='li' to='/collection' class='s-b'>
 				<div>
 					<i class="iconfont" style="color: #8adcd1;">&#xe630;</i>
@@ -93,13 +93,13 @@
 				</div>
 				<i class="iconfont right-arrow">&#xe641;</i>
 			</router-link>
-			<router-link tag='li' to='/view-history' class='s-b'>
+			<!-- <router-link tag='li' to='/view-history' class='s-b'>
 				<div>
 					<i class="iconfont" style="color: #ef3dc7;">&#xe621;</i>
 					浏览记录
 				</div>
 				<i class="iconfont right-arrow">&#xe641;</i>
-			</router-link>
+			</router-link> -->
 		</ul>
 	</div>
 </template>

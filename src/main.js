@@ -11,6 +11,9 @@ import 'vant/lib/index.css';
 Vue.use(Vant);
 
 
+import http from '@u/http'
+Vue.prototype.http = http;
+
 import utils from '@u/index'
 Vue.prototype.utils = utils;
 
@@ -21,6 +24,10 @@ Vue.use(vComponent);
 Vue.config.productionTip = false
 
 import '@ast/css/app.less';
+
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+Vue.use(VueAwesomeSwiper)
 
 new Vue({
     router,

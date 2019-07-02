@@ -1,65 +1,137 @@
 <template>
 	<div class="order">
-		<page-nav-header></page-nav-header>
-		<!-- tab -->
-		<van-tabs v-model="active">
-			<van-tab title="全部"></van-tab>
+		<page-nav-header ></page-nav-header>
+		<van-tabs v-model="active" class='tab' @click='tabClick'>
 			<van-tab title="待付款"></van-tab>
 			<van-tab title="待发货"></van-tab>
 			<van-tab title="待收货"></van-tab>
 			<van-tab title="已完成"></van-tab>
 			<van-tab title="已取消"></van-tab>
 		</van-tabs>
-		<!-- 订单列表 -->
-		<van-list
-			v-model="loading"
-			:finished="finished"
-			finished-text="没有更多了"
-			@load="onLoad">
-			<van-cell class='order-list'>
-				<div class='order-list-item'>
-					<div class="order-info f-s">
-						<img src="../../assets/img/3.png" alt="">
-						<div>
-							<h1>商品名称</h1>
-							<p class="attr">已选：红色/170</p>
-							<p class="s-b">
-								<span class="">￥<span class="price">10.00</span></span>
-								<span>数量：5</span>
-							</p>
-						</div>
-					</div>
-					<p class="order-handles s-b">
-						<span>取消订单</span>
-						<span>查看物流</span>
-						<span>确认收货</span>
-						<span>立即支付</span>
-					</p>
+		<ul class="order-list">
+			<li v-for='item in list' :key='item.id'>
+				<h1 class=''>
+					订单编号：{{item.ind}}
+				</h1>
+				<dl class="s-b" v-for='product in item.goods' :key='product.name'>
+					<dt>
+						<img :src="product.img" alt="">
+					</dt>
+					<dd>
+						<h2>{{product.name}}（{{product.attribute_name}}）</h2>
+						<p>
+							<span>
+								拿货价：<span class="red">￥{{product.price}}</span>
+							</span>
+							<span>
+								数量：<span class="red">{{product.num}}</span>
+							</span>
+							
+						</p>
+						<p>
+							<span>
+								总价：<span class="red">￥{{product.totalPrice}}</span>
+							</span>
+						</p>
+					</dd>
+				</dl>
+				<div class="s-b">
+					<span>{{item.pay_time}}</span>
+					<span>供{{item.totalNum}}件商品，合计：<span class="red">￥{{item.pay_amount}}</span></span>
 				</div>
-			</van-cell>
-		</van-list>
+				<div class="btns">
+					<span v-if='item.status == 0'>支付订单</span>
+					<span v-if='item.status == 0' @click='cancelOrder(item.id)'>取消订单</span>
+					<span v-if='item.status == 1'>查看物流</span>
+					<span v-if='item.status == 2' @click='confirmReceive(item.id)'>确认收货</span>
+				</div>
+			</li>
+		</ul>
+		<p v-if='list && !finish' class="load-more" @click='loadMore'>--- 查看更多 ---</p>
+		<none v-if='!list'></none>
 	</div>
 </template>
 
 <script>
 	export default {
+		components: {},
 		data () {
 			return {
+				tab : [
+					'待付款','待发货','待收货','已完成','已取消'
+				],
 				active : 0,
-				loading: false,
-				finished: false
+				list : null,
+				limit : 10,
+				page :1,
+				finish : false,
 			}
 		},
-		created() {
-			console.log(this.$route)
-			if (this.$route.params.flag) {
-				this.active = this.$route.params.flag;
+		created () {
+			this.initData();
+		},
+		
+		methods : {
+			initData(){
+				this.http.post('/v1/c_order/getAll',{
+					page : this.page,
+					limit : this.limit,
+					status : this.active + 1
+				}).then(res => {
+					if (this.page > 1) {
+						if (res.data) {
+							this.list = this.list.concat(res.data.data)
+						} else {
+							this.utils.toast('没有更多了');
+							this.finish = true;
+						}
+					} else {
+						this.finish = false;
+						this.list = res.data.data;
+					}
+					// this.list = res.data.data;
+					// console.log(res)
+				})
+			},
+			tabClick(active) {
+				this.page = 1;
+				this.initData();
+			},
+			//确认收货
+			confirmReceive(id) {
+				this.http.post('/v1/c_order/confirm',{
+					id : id
+				}).then(res=>{
+					this.utils.toast(res.msg);
+					this.initData();
+					
+				})
+			},
+			//取消订单
+			cancelOrder (id) {
+				this.http.post('/v1/c_order/cancel',{
+					id : id
+				}).then(res => {
+					this.utils.toast(res.msg);
+					this.initData();
+				})
+			},
+			//loadMore
+			loadMore () {
+				this.page ++;
+				this.initData();
 			}
 		},
-		methods:{
-			onLoad () {
-				console.log('onload')
-			}
-		}
+		//mounted () {},
+		// watch () {
+		// 	a (n,o) {
+		// 		
+		// 	}
+		// },
+		// computed () {
+		// 	a () {
+		// 		return this.a
+		// 	}
+		// },
 	}
 </script>
