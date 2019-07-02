@@ -7,23 +7,23 @@
 					申请成为分销
 				</router-link>
 				<div class="user-info f-s">
-					<img src="../assets/img/3.png" alt="">
+					<img :src="img" alt="">
 					<div>
-						<h1>用户名称</h1>
-						<p>普通会员</p>
+						<h1>{{nickname}}</h1>
+						
 					</div>
 				</div>
 				<ul class="account-info s-b">
 					<li>
-						<h1>100.00</h1>
+						<h1>{{balance}}</h1>
 						<p>余额</p>
 					</li>
 					<router-link tag='li' to='/collection'>
-						<h1>3</h1>
+						<h1>{{collectNum}}</h1>
 						<p>收藏</p>
 					</router-link>
 					<router-link tag='li' to='/ticket'>
-						<h1>3</h1>
+						<h1>{{couponNum}}</h1>
 						<p>优惠券</p>
 					</router-link>
 				</ul>
@@ -109,15 +109,29 @@
 	
 		data () {
 			return {
-				
+				nickname  : null,
+				balance : null,
+				img : null,
+				collectNum :null,
+				couponNum : null
 			}
 		},
 		created  () {
-			
+			this.initData()
 		},
 		//mounted () {},
 		methods : {
-			
+			initData () {
+				this.http.post('/v1/c_user/getInfo',{
+					
+				}).then(res => {
+					this.nickname = res.data.user.nickname;
+					this.balance = res.data.user.balance;
+					this.img = res.data.user.img;
+					this.collectNum = res.data.collectNum;
+					this.couponNum = res.data.couponNum;
+				})
+			}
 		}
 	}
 </script>

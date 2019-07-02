@@ -1,5 +1,5 @@
 <template>
-	<div class="order">
+	<div class="order page">
 		<page-nav-header ></page-nav-header>
 		<van-tabs v-model="active" class='tab' @click='tabClick'>
 			<van-tab title="待付款"></van-tab>
@@ -21,18 +21,14 @@
 						<h2>{{product.name}}（{{product.attribute_name}}）</h2>
 						<p>
 							<span>
-								拿货价：<span class="red">￥{{product.price}}</span>
+								单价：<span class="red">￥{{product.price}}</span>
 							</span>
 							<span>
 								数量：<span class="red">{{product.num}}</span>
 							</span>
 							
 						</p>
-						<p>
-							<span>
-								总价：<span class="red">￥{{product.totalPrice}}</span>
-							</span>
-						</p>
+						
 					</dd>
 				</dl>
 				<div class="s-b">
@@ -42,7 +38,7 @@
 				<div class="btns">
 					<span v-if='item.status == 0'>支付订单</span>
 					<span v-if='item.status == 0' @click='cancelOrder(item.id)'>取消订单</span>
-					<span v-if='item.status == 1'>查看物流</span>
+					<!-- <span v-if='item.status == 1'>查看物流</span> -->
 					<span v-if='item.status == 2' @click='confirmReceive(item.id)'>确认收货</span>
 				</div>
 			</li>
@@ -103,8 +99,9 @@
 					id : id
 				}).then(res=>{
 					this.utils.toast(res.msg);
-					this.initData();
-					
+					this.list = this.list.filter(item => {
+						return item.id !=id;
+					})
 				})
 			},
 			//取消订单
@@ -113,7 +110,9 @@
 					id : id
 				}).then(res => {
 					this.utils.toast(res.msg);
-					this.initData();
+					this.list = this.list.filter(item => {
+						return item.id !=id;
+					})
 				})
 			},
 			//loadMore

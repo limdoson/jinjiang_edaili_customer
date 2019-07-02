@@ -5,7 +5,7 @@
 				<van-checkbox v-model='item.check' checked-color='orangered' @change='sleectItem'></van-checkbox>
 				<router-link tag='img' :to="'/product-detail/'+item.goods_id" :src="item.img"></router-link>
 				<div class="product-info">
-					<h1>商品名称</h1>
+					<h1>{{item.goods_name}}</h1>
 					<p class="attr" >{{item.attribute_name ? item.attribute_name : null}}</p>
 					<div class="s-b">
 						<p>
@@ -101,7 +101,7 @@
 				if (this.entablHanlde()) {
 					let ids = this.list.filter(item => item.check).map(item => item.id);
 					this.utils.msg('您确定删除所选数据吗？',() => {
-						this.http.post('/v1/ag_cart/del',{
+						this.http.post('/v1/c_cart/del',{
 							id : JSON.stringify(ids)
 						}).then(res => {
 							this.utils.msg('删除成功',()=>{
@@ -171,6 +171,7 @@
 			li {
 				padding: 10px;
 				background: #fff;
+				border-bottom: 1px solid #f1f1f1;
 				img {
 					width: 70px;
 					height: 70px;
