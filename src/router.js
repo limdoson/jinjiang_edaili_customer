@@ -173,6 +173,12 @@ let router = new Router({
 				title : '支付成功'
 			},
 			component : () => import('./components/PaySuccess')
+		},{//分销商提现记录
+			path : '/cash-record',
+			meta :{
+				title : '提现记录'
+			},
+			component : () => import('./views/fx/CashRecord')
 		}
     ]
 })
@@ -183,7 +189,8 @@ router.afterEach((to, from) => {
 		http.post('/v1/c_user/getInfo',{
 			
 		}).then(res => {
-			Store.commit('initUser',res.data.user)
+			
+			Store.commit('initUser',res.data)
 		})
 	}
 })

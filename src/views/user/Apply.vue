@@ -59,7 +59,8 @@
 					password : this.password,
 					once_password : this.once_password
 				}).then(res => {
-					this.utils.msg(res.msg,()=>{
+					this.utils.msg(res.data.msg,()=>{
+						this.$store.commit('initUser',res.data.userInfo);
 						this.$router.back();
 					})
 				})

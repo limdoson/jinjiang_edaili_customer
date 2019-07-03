@@ -12,15 +12,15 @@
 				</div> -->
 				<ul class="account-info s-b">
 					<li>
-						<h1>100.00</h1>
+						<h1>{{total}}</h1>
 						<p>累计收益</p>
 					</li>
 					<router-link tag='li' to='/collection'>
-						<h1>300.00</h1>
+						<h1>{{freeze}}</h1>
 						<p>冻结收益</p>
 					</router-link>
 					<router-link tag='li' to='/share-qrcode'>
-						<h1>300.00</h1>
+						<h1>{{balance}}</h1>
 						<p>可提现收益</p>
 					</router-link>
 				</ul>
@@ -59,6 +59,13 @@
 				<div >
 					<i class="iconfont" style="color: #ef5f46;">&#xe624;</i>
 					提现
+				</div>
+				<i class="iconfont right-arrow">&#xe641;</i>
+			</router-link>
+			<router-link tag='li' to='/cash-record' class='s-b'>
+				<div >
+					<i class="iconfont" style="color: #ef5f46;">&#xe624;</i>
+					提现记录
 				</div>
 				<i class="iconfont right-arrow">&#xe641;</i>
 			</router-link>
@@ -106,15 +113,25 @@
 	
 		data () {
 			return {
-				
+				total : null,
+				freeze :null,
+				balance :null
 			}
 		},
 		created  () {
-			
+			this.initData();
 		},
 		//mounted () {},
 		methods : {
-			
+			initData () {
+				this.http.post('/v1/c_dis/getProfit',{
+					
+				}).then(res => {
+					this.total = res.data.total;
+					this.freeze = res.data.freeze;
+					this.balance = res.data.balance;
+				})
+			}
 		}
 	}
 </script>

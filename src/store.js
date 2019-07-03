@@ -14,5 +14,5 @@ export default new Vuex.Store({
 		}
 	},
     actions : {},
-	plugins : [VuexAlong]
+	// plugins : [VuexAlong]
 })

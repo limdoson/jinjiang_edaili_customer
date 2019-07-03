@@ -8,7 +8,7 @@
 				background='#e8e8e8' />
 		</div> -->
 		<!-- 轮播图 -->
-		<Swiper></Swiper>
+		<Swiper :list='flash'></Swiper>
 		
 		<!-- 商品推荐 -->
 		<template >
@@ -74,8 +74,8 @@
 				this.http.post('/v1/c_index/getIndex',{
 					
 				}).then(res => {
-					console.log(res)
-					this.flag = res.data.flag;
+						
+					this.flash = res.data.flash;
 					this.window = res.data.window;
 				})
 			},

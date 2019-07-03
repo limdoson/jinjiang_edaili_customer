@@ -1,29 +1,29 @@
 <template>
-	<div class="user">
+	<div class="user" v-if='$store.state.user'>
 		<header>
 			<div class="bg"></div>
 			<div class="container">
-				<router-link tag='h1' class='apply' to='/apply' v-if='type == 1'>
+				<router-link tag='h1' class='apply' to='/apply' v-if='$store.state.user.type == 1'>
 					申请成为分销
 				</router-link>
 				<div class="user-info f-s">
-					<img :src="img" alt="">
+					<img :src="$store.state.user.img" alt="">
 					<div>
-						<h1>{{nickname}}</h1>
+						<h1>{{$store.state.user.nickname}}</h1>
 						
 					</div>
 				</div>
 				<ul class="account-info s-b">
 					<li>
-						<h1>{{balance}}</h1>
+						<h1>{{$store.state.user.balance}}</h1>
 						<p>余额</p>
 					</li>
 					<router-link tag='li' to='/collection'>
-						<h1>{{collectNum}}</h1>
+						<h1>{{$store.state.user.collectNum}}</h1>
 						<p>收藏</p>
 					</router-link>
 					<router-link tag='li' to='/ticket'>
-						<h1>{{couponNum}}</h1>
+						<h1>{{$store.state.user.couponNum}}</h1>
 						<p>优惠券</p>
 					</router-link>
 				</ul>
@@ -111,14 +111,14 @@
 			return {
 				nickname  : null,
 				balance : null,
-				type : 1,
+				type : null,
 				img : null,
 				collectNum :null,
 				couponNum : null
 			}
 		},
 		created  () {
-			this.initData()
+			// this.initData()
 		},
 		//mounted () {},
 		methods : {
@@ -126,12 +126,13 @@
 				this.http.post('/v1/c_user/getInfo',{
 					
 				}).then(res => {
-					this.type = res.data.user.type;
-					this.nickname = res.data.user.nickname;
-					this.balance = res.data.user.balance;
-					this.img = res.data.user.img;
+					this.type = res.data.type;
+					this.nickname = res.data.nickname;
+					this.balance = res.data.balance;
+					this.img = res.data.img;
 					this.collectNum = res.data.collectNum;
 					this.couponNum = res.data.couponNum;
+					this.$store.commit('initUser',res.data)
 				})
 			}
 		}

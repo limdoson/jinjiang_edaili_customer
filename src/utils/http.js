@@ -47,6 +47,9 @@ class Http extends Vue {
 					case 100: //正常错误
 					    this.utils.toast(res.data.msg)
 					    break;
+					case 100: //正常错误
+					    this.utils.toast(res.data.msg)
+					    break;
 					case 111: //正常错误
 					    this.utils.toast(res.data.msg)
 					    break;
