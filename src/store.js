@@ -6,11 +6,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state : {
-        config : {
-            
-        }
+        user : null
     },
-    mutations : {},
+    mutations : {
+		initUser (state,payload) {
+			state.user = payload;
+		}
+	},
     actions : {},
 	plugins : [VuexAlong]
 })

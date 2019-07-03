@@ -11,12 +11,16 @@
 		<Swiper></Swiper>
 		
 		<!-- 商品推荐 -->
-		<product-ad
-			title='栏目标题'
-			:list='column_list'
-			type='single-pic'
-			:num_of_pic='3'></product-ad>
-		<product-ad
+		<template >
+			<product-ad
+				v-for='item in window' :key='item.id'
+				:title='item.name'
+				:list='item.goods'
+				:type='item.type'
+				:num_of_pic='3'></product-ad>
+		</template>
+		
+		<!-- <product-ad
 			title='栏目标题'
 			:list='column_list'
 			type='rows-pics'
@@ -30,7 +34,7 @@
 			title='栏目标题'
 			:list='column_list'
 			type='three-pics'
-			:num_of_pic='3'></product-ad>
+			:num_of_pic='3'></product-ad> -->
 	</div>
 </template>
 
@@ -45,25 +49,36 @@
 		},
 		data () {
 			return {
-				column_list : [
-					'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
-					'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
-					'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
-					'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
-					'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
-					'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
-				],
+				// column_list : [
+				// 	'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
+				// 	'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
+				// 	'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
+				// 	'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
+				// 	'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
+				// 	'https://gma.alicdn.com/bao/uploaded/i3/97497546/O1CN01VQii9425c7E9pYs5Z_!!0-saturn_solar.jpg_400x400.jpg_.webp',
+				// ],
 				// 横向swiper配置
 				options : {
 					width : 80
-				}
+				},
+				window : null,
+				flash : null
 			}
 		},
 		created  () {
-			
+			this.initData()
 		},
 		//mounted () {},
 		methods : {
+			initData () {
+				this.http.post('/v1/c_index/getIndex',{
+					
+				}).then(res => {
+					console.log(res)
+					this.flag = res.data.flag;
+					this.window = res.data.window;
+				})
+			},
 			test () {
 				console.log(1)
 			}

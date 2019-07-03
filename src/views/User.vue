@@ -3,7 +3,7 @@
 		<header>
 			<div class="bg"></div>
 			<div class="container">
-				<router-link tag='h1' class='apply' to='/apply'>
+				<router-link tag='h1' class='apply' to='/apply' v-if='type == 1'>
 					申请成为分销
 				</router-link>
 				<div class="user-info f-s">
@@ -111,6 +111,7 @@
 			return {
 				nickname  : null,
 				balance : null,
+				type : 1,
 				img : null,
 				collectNum :null,
 				couponNum : null
@@ -125,6 +126,7 @@
 				this.http.post('/v1/c_user/getInfo',{
 					
 				}).then(res => {
+					this.type = res.data.user.type;
 					this.nickname = res.data.user.nickname;
 					this.balance = res.data.user.balance;
 					this.img = res.data.user.img;

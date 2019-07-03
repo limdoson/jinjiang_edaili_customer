@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import Store from './store'
+import http from './utils/http.js'
 Vue.use(Router)
 
 let router = new Router({
@@ -176,9 +177,15 @@ let router = new Router({
     ]
 })
 
-router.afterEach((to, from, next) => {
-	
+router.afterEach((to, from) => {
 	document.title = to.meta.title;
+	if (!Store.state.user) {
+		http.post('/v1/c_user/getInfo',{
+			
+		}).then(res => {
+			Store.commit('initUser',res.data.user)
+		})
+	}
 })
 
 export default router;
