@@ -33,7 +33,7 @@ class Http extends Vue {
             http({
                 method: 'post',
                 url,
-                params,
+                params : Object.assign({url : location.href},params),
             }).then(res => { 
 				
                 //判断code
@@ -51,9 +51,17 @@ class Http extends Vue {
 					    this.utils.toast(res.data.msg)
 					    break;
 					case 110: //未登录
-						this.utils.msg(res.data.msg,()=>{
-							Router.replace('/')
+						this.http.post('/v1/wechat/getAppId',{
+							
+						}).then(res => {
+							let url = encodeURIComponent('https://laravel.linxmwx.cn/customer');
+							let _href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+ res.data.appId + '&redirect_uri=' + url + '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
+
+							location.href = _href;
 						})
+						// this.utils.msg(res.data.msg,()=>{
+						// 	Router.replace('/')
+						// })
 					    break;
                     case 112: //无数据或操作失败
                         this.utils.msg(res.data.msg)

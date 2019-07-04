@@ -66,7 +66,26 @@
 			}
 		},
 		created  () {
-			this.initData()
+			let params = location.search;
+			if (params) {
+				let str = params.substring(1);
+				let code = str.split('&')[0].split('=')[1];
+				let state = str.split('&')[1].split('=')[1];
+				if (state == 'STATE') {
+					state = null
+				}
+				this.http.post('/v1/wechat/userAutoWx',{
+					code : code,
+					recommend_id : state
+				}).then(res => {
+					this.initData();
+					console.log(res)
+					// this.initData();
+				})
+			} else {
+				this.initData()
+			}
+			
 		},
 		//mounted () {},
 		methods : {
