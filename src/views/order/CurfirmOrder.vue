@@ -35,7 +35,7 @@
 				</li>
 			</ul>
 		</div>
-		<van-cell title="选择优惠券" @click='show_coupon = true' style='margin-top: 8px;' is-link>
+		<!-- <van-cell title="选择优惠券" @click='show_coupon = true' style='margin-top: 8px;' is-link> -->
 			
 		</van-cell>
 		<!-- 备注信息 -->
@@ -89,13 +89,15 @@
 					{
 						name : '微信支付',
 						pay_type :1
-					},{
-						name :'支付宝支付',
-						pay_type :2
-					},{
-						name : '货款支付',
-						pay_type :3
-					}
+					},
+					// {
+					// 	name :'支付宝支付',
+					// 	pay_type :2
+					// },
+					// {
+					// 	name : '货款支付',
+					// 	pay_type :3
+					// }
 				],
 				show_coupon :false,
 				goods_data : null,//前面提交过来的数据
@@ -104,7 +106,8 @@
 		},
 		created () {
 			this.goods_data = JSON.parse(this.$route.query.data);
-			console.log(this.goods_data)
+			
+			
 		},
 		
 		methods : {
@@ -113,16 +116,34 @@
 					this.utils.toast('请选择收货地址');
 					return;
 				}
-				this.http.post('/v1/ag_order/createOrder',{
+				let me = this;
+				this.http.post('/v1/c_order/createOrder',{
 					adrId : this.goods_data.adr.id,
 					payType : item.pay_type,
 					couponId : 0,
 					msg : this.remark,
 					goods : JSON.stringify(this.goods_data.goods)
 				}).then(res => {
-					this.utils.msg(res.msg, () => {
-						this.$router.replace('/pay-success')
-					})
+					if (res.data.isWxPay) {//调用微信支付
+						this.http.post('/v1/wechat/wxPay',{
+							orderIds : res.data.orderId
+						}).then(pay_data => {
+							wx.chooseWXPay({
+								timestamp : pay_data.data.timestamp,
+								appId : pay_data.data.appId,
+								nonceStr : pay_data.data.nonceStr,
+								package : pay_data.data.package,
+								signType : pay_data.data.signType,
+								paySign : pay_data.data.paySign,
+								success : pay => {
+									me.$router.replace('/pay-success')
+								},
+								fail : err => {
+									
+								}
+							})
+						})
+					}
 				})
 				console.log(item)
 			},

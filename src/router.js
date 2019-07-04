@@ -182,17 +182,23 @@ let router = new Router({
 		}
     ]
 })
-
+let wx_api_list =['openLocation','getLocation','updateAppMessageShareData','updateTimelineShareData','onMenuShareAppMessage','onMenuShareTimeline','chooseWXPay'];
 router.afterEach((to, from) => {
 	document.title = to.meta.title;
-	// if (!Store.state.user) {
-	// 	http.post('/v1/c_user/getInfo',{
-	// 		
-	// 	}).then(res => {
-	// 		
-	// 		Store.commit('initUser',res.data)
-	// 	})
-	// }
+	if (process.env.NODE_ENV != 'development') {
+		http.post('/v1/wechat/sdk',{
+			
+		}).then(res => {
+			wx.config({
+				debug : true,
+				appId : res.data.appId,
+				timestamp : res.data.timestamp,
+				nonceStr : res.data.nonceStr,
+				signature : res.data.paySign,
+				jsApiList : wx_api_list,
+			})
+		})
+	}
 })
 
 export default router;

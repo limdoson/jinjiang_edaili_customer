@@ -1,7 +1,7 @@
 <template>
 	<div class="layout">
 		<router-view></router-view>
-		<Footer></Footer>
+		
 	</div>
 </template>
 
@@ -11,7 +11,7 @@
 		components: {Footer},
 		data () {
 			return {
-				
+				active : 0
 			}
 		},
 		created  () {
@@ -23,6 +23,11 @@
 		}
 	}
 </script>
-
-<style>
+<style scoped lang="less">
+	.page-footer {
+		position: fixed;
+		bottom: 0;
+		z-index: 1987;
+		width: 100%;
+	}
 </style>
