@@ -94,10 +94,10 @@
 					// 	name :'支付宝支付',
 					// 	pay_type :2
 					// },
-					// {
-					// 	name : '货款支付',
-					// 	pay_type :3
-					// }
+					{
+						name : '货款支付',
+						pay_type :3
+					}
 				],
 				show_coupon :false,
 				goods_data : null,//前面提交过来的数据
@@ -105,14 +105,17 @@
 			}
 		},
 		created () {
-			this.goods_data = JSON.parse(this.$route.query.data);
 			
+			console.log(JSON.parse(localStorage.getItem('goods')))
 			
 		},
-		
+		mounted () {
+			this.goods_data = JSON.parse(localStorage.getItem('goods'));
+		},
 		methods : {
 			onSelect (item) {
-				if (!this.goods_data.adr.name) {
+				console.log()
+				if (!this.goods_data.adr) {
 					this.utils.toast('请选择收货地址');
 					return;
 				}
@@ -136,6 +139,7 @@
 								signType : pay_data.data.signType,
 								paySign : pay_data.data.paySign,
 								success : pay => {
+									localStorage.removeItem('goods')
 									me.$router.replace('/pay-success')
 								},
 								fail : err => {

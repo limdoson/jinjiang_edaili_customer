@@ -28,12 +28,12 @@ class Http extends Vue {
             // "authorization": Storage.get('session_id') ? Storage.get('session_id') :'',
             'content-type': 'application/json',
         }    
-		
+		// : Object.assign({url : location.href},params),
         return new Promise((resolve, reject) => {
             http({
                 method: 'post',
                 url,
-                params : Object.assign({url : location.href},params),
+                params, 
             }).then(res => { 
 				
                 //判断code

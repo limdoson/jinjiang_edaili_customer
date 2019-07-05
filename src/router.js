@@ -6,7 +6,8 @@ Vue.use(Router)
 
 let router = new Router({
     base : process.env.NODE_ENV == 'development' ? './' : '/customer/',
-    mode : process.env.NODE_ENV == 'development' ? 'history' : 'history',
+    mode : process.env.NODE_ENV == 'development' ? 'hash' : 'history',
+	activeClass : 'active',
     routes : [
         {
 			path : '/',
@@ -186,19 +187,38 @@ let wx_api_list =['openLocation','getLocation','updateAppMessageShareData','upda
 router.afterEach((to, from) => {
 	document.title = to.meta.title;
 	if (process.env.NODE_ENV != 'development') {
-		http.post('/v1/wechat/sdk',{
+		if (to.path == '/curfirm-order') {
+			http.post('/v1/wechat/sdk',{
+				url : location.origin + location.pathname
+			}).then(res => {
+				wx.config({
+					debug : false,
+					appId : res.data.appId,
+					timestamp : res.data.timestamp,
+					nonceStr : res.data.nonceStr,
+					signature : res.data.signature,
+					jsApiList : wx_api_list,
+				})
+			})
+		}
+		
+	}
+	if (!Store.state.user) {
+		http.post('/v1/c_user/getInfo',{
 			
 		}).then(res => {
-			wx.config({
-				debug : true,
-				appId : res.data.appId,
-				timestamp : res.data.timestamp,
-				nonceStr : res.data.nonceStr,
-				signature : res.data.paySign,
-				jsApiList : wx_api_list,
-			})
+			Store.commit('initUser',res.data)
 		})
 	}
 })
+
+// router.onError((error) => {
+//     const pattern = /Loading chunk (\d)+ failed/g;
+//     const isChunkLoadFailed = error.message.match(pattern);
+//     const targetPath = router.history.pending.fullPath;
+//     if(isChunkLoadFailed){
+//         router.replace(targetPath);
+//     }
+// })
 
 export default router;
