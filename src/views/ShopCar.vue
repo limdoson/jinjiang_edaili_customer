@@ -211,7 +211,7 @@
 		}
 		footer {
 			position: fixed;
-			bottom: 50px;
+			bottom: 56px;
 			width: ~"calc(100% - 10px)";
 			height: 40px;
 			line-height: 40px;

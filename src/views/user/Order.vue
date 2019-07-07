@@ -26,9 +26,7 @@
 							<span>
 								数量：<span class="red">{{product.num}}</span>
 							</span>
-							
 						</p>
-						
 					</dd>
 				</dl>
 				<div class="s-b">
@@ -36,7 +34,7 @@
 					<span>供{{item.totalNum}}件商品，合计：<span class="red">￥{{item.pay_amount}}</span></span>
 				</div>
 				<div class="btns">
-					<span v-if='item.status == 0'>支付订单</span>
+					<span v-if='item.status == 0' @click='payOrder(item)'>支付订单</span>
 					<span v-if='item.status == 0' @click='cancelOrder(item.id)'>取消订单</span>
 					<!-- <span v-if='item.status == 1'>查看物流</span> -->
 					<span v-if='item.status == 2' @click='confirmReceive(item.id)'>确认收货</span>
@@ -45,10 +43,17 @@
 		</ul>
 		<p v-if='list && !finish' class="load-more" @click='loadMore'>--- 查看更多 ---</p>
 		<none v-if='!list'></none>
+		<van-action-sheet
+			v-model="show_action_sheet"
+			:actions="pay_type"
+			cancel-text="取消"
+			@select="onSelect"
+		/>
 	</div>
 </template>
 
 <script>
+	import config from '@cfg/index'
 	export default {
 		components: {},
 		data () {
@@ -61,10 +66,18 @@
 				limit : 10,
 				page :1,
 				finish : false,
+				pay_type : config.pay_type,
+				show_action_sheet :false,
+				item_tmp : null,
 			}
 		},
 		created () {
-			this.initData();
+			if (this.$route.params.flag) {
+				this.active = this.$route.params.flag;
+				this.initData();
+			} else {
+				this.initData();
+			}
 		},
 		
 		methods : {
@@ -72,7 +85,7 @@
 				this.http.post('/v1/c_order/getAll',{
 					page : this.page,
 					limit : this.limit,
-					status : this.active + 1
+					status : Number(this.active) + 1
 				}).then(res => {
 					if (this.page > 1) {
 						if (res.data) {
@@ -85,8 +98,6 @@
 						this.finish = false;
 						this.list = res.data.data;
 					}
-					// this.list = res.data.data;
-					// console.log(res)
 				})
 			},
 			tabClick(active) {
@@ -119,7 +130,38 @@
 			loadMore () {
 				this.page ++;
 				this.initData();
-			}
+			},
+			chosePayType (item) {
+				this.item_tmp = item;
+				this.show_action_sheet = true;
+			},
+			onSelect (item) {
+				
+			},
+			payOrder (item) {
+				let me = this;
+				if (item.pay_type == 1) {//微信支付
+					this.http.post('/v1/wechat/wxPay',{
+						orderIds : JSON.stringify([item.id])
+					}).then(pay_data => {
+						wx.chooseWXPay({
+							timestamp : pay_data.data.timestamp,
+							appId : pay_data.data.appId,
+							nonceStr : pay_data.data.nonceStr,
+							package : pay_data.data.package,
+							signType : pay_data.data.signType,
+							paySign : pay_data.data.paySign,
+							success : pay => {
+								localStorage.removeItem('goods')
+								me.$router.replace('/pay-success')
+							},
+							fail : err => {
+								
+							}
+						})
+					})
+				} 
+			},
 		},
 		//mounted () {},
 		// watch () {

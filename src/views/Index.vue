@@ -85,7 +85,6 @@
 			} else {
 				this.initData()
 			}
-			
 		},
 		//mounted () {},
 		methods : {

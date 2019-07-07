@@ -5,11 +5,11 @@
 			<li class="s-b" @click='getTicket(item)' v-for='item in list' :key='item.id'>
 				<div>
 					<h2>{{item.title}}</h2>
-					
 					<p>有效期：{{item.end_time}}</p>
 				</div>
 				<div>
 					<h1>
+						
 						<p v-if='item.type == 1'>
 							<span class="red">{{item.money}}</span>元
 						</p>
@@ -43,7 +43,7 @@
 		
 		methods : {
 			initData () {
-				this.http.post('/v1/c_coupon/getCoupon',{
+				this.http.post('/v1/c_coupon/getMyCoupon',{
 					
 				}).then(res =>{
 					if (res.data.length) {
@@ -51,20 +51,6 @@
 					}
 				})
 			},
-			getTicket (item) {
-				this.http.post('/v1/c_coupon/collarCoupon',{
-					id : item.id
-				}).then(res => {
-					this.utils.toast(res.msg)
-					//更新store中的优惠券数量
-					this.http.post('/v1/c_user/getInfo',{
-						
-					}).then(res => {
-						this.$store.commit('initUser',res.data);
-						this.initData();
-					})
-				})
-			}
 		},
 	}
 </script>

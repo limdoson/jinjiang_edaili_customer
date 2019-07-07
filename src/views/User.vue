@@ -10,7 +10,6 @@
 					<img :src="$store.state.user.img" alt="">
 					<div>
 						<h1>{{$store.state.user.nickname}}</h1>
-						
 					</div>
 				</div>
 				<ul class="account-info s-b">
@@ -22,7 +21,7 @@
 						<h1>{{$store.state.user.collectNum}}</h1>
 						<p>收藏</p>
 					</router-link>
-					<router-link tag='li' to='/ticket'>
+					<router-link tag='li' to='/my-ticket'>
 						<h1>{{$store.state.user.couponNum}}</h1>
 						<p>优惠券</p>
 					</router-link>
@@ -38,19 +37,19 @@
 				</router-link>
 			</h1>
 			<ul class=" s-b">
-				<router-link tag='li' to='/order/1'>
+				<router-link tag='li' to='/order'>
 					<i class="iconfont">&#xe634;</i>
 					<p>待付款</p>
 				</router-link>
-				<router-link tag='li' to='/order/2'>
+				<router-link tag='li' to='/order/1'>
 					<i class="iconfont">&#xe649;</i>
 					<p>待发货</p>
 				</router-link>
-				<router-link tag='li' to='/order/3'>
+				<router-link tag='li' to='/order/2'>
 					<i class="iconfont">&#xe633;</i>
 					<p>待收货</p>
 				</router-link>
-				<router-link tag='li' to='/order/4'>
+				<router-link tag='li' to='/order/3'>
 					<i class="iconfont">&#xe6cb;</i>
 					<p>已完成</p>
 				</router-link>

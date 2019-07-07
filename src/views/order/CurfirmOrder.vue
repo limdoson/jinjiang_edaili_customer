@@ -35,17 +35,17 @@
 				</li>
 			</ul>
 		</div>
-		<!-- <van-cell title="选择优惠券" @click='show_coupon = true' style='margin-top: 8px;' is-link> -->
+		<van-cell title="选择优惠券" @click='choseTicket' style='margin-top: 8px;' is-link :value='coupon_money'>
 			
 		</van-cell>
 		<!-- 备注信息 -->
 		<div class="remark">
-			<van-field v-model="remark" type='textarea' placeholder="如果需要,可输入备注信息" style='flex: 1;'/>
+			<van-field v-model="remark" type='textarea'  placeholder="如果需要,可输入备注信息" style='flex: 1;'/>
 		</div>
 		
 		<!-- 底部按钮 -->
 		<footer @click='show_action_sheet = true'>
-			合计：￥{{goods_data.totalMoney}}(含运费：{{goods_data.freight}})，立即支付
+			合计：￥{{total_money}}(含运费：{{goods_data.freight}})，立即支付
 		</footer>
 		<!-- 选择地址 -->
 		<van-popup v-model="show" position="bottom" :overlay="true">
@@ -70,14 +70,39 @@
 		/>
 		<!-- 优惠券选择 -->
 		<van-popup v-model="show_coupon" position="bottom" :style="{ height: '70%' }">
-			<ul class="coupon-list">
-				<li></li>
-			</ul>
+			<div class="ticket" v-if='coupon_list'>
+				<ul class="list" >
+					<li class="s-b" @click='confirmTicket(item)' v-for='item in coupon_list' :key='item.id' style="background: #f4f4f4;">
+						<div>
+							<h2>{{item.title}}</h2>
+							<p>有效期：{{item.end_time}}</p>
+						</div>
+						<div>
+							<h1>
+								
+								<p v-if='item.type == 1'>
+									<span class="red">{{item.money}}</span>元
+								</p>
+								<p v-if='item.type == 2'>
+									满<span class="red">{{item.order_money}}</span>减<span class="red">{{item.reduce_money}}</span>
+								</p>
+							</h1>
+							<p>
+								<span v-if='item.model == 1'>全场通用</span>
+								<span v-if='item.model == 2'>指定单品</span>
+							</p>
+						</div>
+						
+					</li>
+				</ul>
+			</div>
+			<none v-else></none>
 		</van-popup>
 	</div>
 </template>
 
 <script>
+	import config from '@cfg/index'
 	export default {
 		components: {},
 		data () {
@@ -85,21 +110,12 @@
 				show : false,
 				show_action_sheet : false,
 				remark : null,
-				pay_type : [
-					{
-						name : '微信支付',
-						pay_type :1
-					},
-					// {
-					// 	name :'支付宝支付',
-					// 	pay_type :2
-					// },
-					{
-						name : '货款支付',
-						pay_type :3
-					}
-				],
+				pay_type : config.pay_type,
+				total_money : 0,//用来显示的订单总价
 				show_coupon :false,
+				selected_coupon :null,
+				coupon_list : null,
+				coupon_money : null,
 				goods_data : null,//前面提交过来的数据
 				adr_list : null,//用来存储用户的地址列表数据
 			}
@@ -111,6 +127,7 @@
 		},
 		mounted () {
 			this.goods_data = JSON.parse(localStorage.getItem('goods'));
+			this.total_money = this.goods_data.totalMoney;
 		},
 		methods : {
 			onSelect (item) {
@@ -123,7 +140,7 @@
 				this.http.post('/v1/c_order/createOrder',{
 					adrId : this.goods_data.adr.id,
 					payType : item.pay_type,
-					couponId : 0,
+					couponId : this.selected_coupon.id,
 					msg : this.remark,
 					goods : JSON.stringify(this.goods_data.goods)
 				}).then(res => {
@@ -170,6 +187,30 @@
 			confirmChoseAdr (item) {
 				this.goods_data.adr = item;
 				this.show = false;
+			},
+			//选择优惠券
+			choseTicket () {
+				this.http.post('/v1/c_coupon/getMyCoupon',{
+					
+				}).then(res => {
+					if (res.data.length) {
+						this.coupon_list = res.data;
+					}
+					this.show_coupon = true;
+				})
+			},
+			//确认选择优惠券
+			confirmTicket (item) {
+				this.selected_coupon = item;
+				if (item.type == 1) {
+					this.coupon_money = `减${item.money}元`;
+					this.total_money = Number(this.goods_data.totalMoney) - Number(item.money) 
+				} else if (item.type == 2) {
+					this.coupon_money = `减${item.reduce_money}元`;
+					this.total_money = Number(this.goods_data.totalMoney) - Number(item.reduce_money) 
+				}
+				
+				this.show_coupon = false;
 			}
 		},
 		//mounted () {},

@@ -73,6 +73,13 @@ let router = new Router({
 			},
 			name : 'ticket',
 			component : () => import('./views/user/Ticket')
+		},{//我的优惠券
+			path : '/my-ticket',
+			meta : {
+				title : '我的优惠券'
+			},
+			name : 'my-ticket',
+			component : () => import('./views/user/MyTicket')
 		},{//消息
 			path : '/msg',
 			meta : {
@@ -184,25 +191,44 @@ let router = new Router({
     ]
 })
 let wx_api_list =['openLocation','getLocation','updateAppMessageShareData','updateTimelineShareData','onMenuShareAppMessage','onMenuShareTimeline','chooseWXPay'];
-router.afterEach((to, from) => {
-	document.title = to.meta.title;
-	if (process.env.NODE_ENV != 'development') {
-		if (to.path == '/curfirm-order') {
-			http.post('/v1/wechat/sdk',{
-				url : location.origin + location.pathname
-			}).then(res => {
-				wx.config({
-					debug : false,
-					appId : res.data.appId,
-					timestamp : res.data.timestamp,
-					nonceStr : res.data.nonceStr,
-					signature : res.data.signature,
-					jsApiList : wx_api_list,
-				})
+
+router.beforeEach((to,form,next) => {
+	if (to.path == '/order') {
+		http.post('/v1/wechat/sdk',{
+			url : location.href
+		}).then(res => {
+			wx.config({
+				debug : false,
+				appId : res.data.appId,
+				timestamp : res.data.timestamp,
+				nonceStr : res.data.nonceStr,
+				signature : res.data.signature,
+				jsApiList : ['chooseWXPay'],
 			})
-		}
-		
+			next();
+		})
+	} else {
+		next()
 	}
+})
+
+router.afterEach((to, from) => {
+
+	document.title = to.meta.title;
+	if (to.path == '/curfirm-order' ) {
+		http.post('/v1/wechat/sdk',{
+			url : location.origin + location.pathname
+		}).then(res => {
+			wx.config({
+				debug : false,
+				appId : res.data.appId,
+				timestamp : res.data.timestamp,
+				nonceStr : res.data.nonceStr,
+				signature : res.data.signature,
+				jsApiList : wx_api_list,
+			})
+		})
+	} 
 	if (!Store.state.user) {
 		http.post('/v1/c_user/getInfo',{
 			

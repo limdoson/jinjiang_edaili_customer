@@ -31,9 +31,7 @@
 		},
 		methods: {
 			onClickLeft () {
-				if (localStorage.getItem('goods')) {
-					localStorage.removeItem('goods')
-				}
+				
 				this.$router.back();
 			},
 			onClickRight () {
