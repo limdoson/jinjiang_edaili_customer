@@ -9,16 +9,19 @@
 		</div> -->
 		<!-- 轮播图 -->
 		<Swiper :list='flash'></Swiper>
-		
+		<img-menu></img-menu>
+		<Swiper :list='flash' :autoplay='3000'></Swiper>
+		<img-menu></img-menu>
+		<index-product-list></index-product-list>
 		<!-- 商品推荐 -->
-		<template >
+		<!-- <template >
 			<product-ad
 				v-for='item in window' :key='item.id'
 				:title='item.name'
 				:list='item.goods'
 				:type='item.type'
 				:num_of_pic='3'></product-ad>
-		</template>
+		</template> -->
 		
 		<!-- <product-ad
 			title='栏目标题'

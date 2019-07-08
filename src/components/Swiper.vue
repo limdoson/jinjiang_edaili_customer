@@ -1,5 +1,5 @@
 <template>
-	<van-swipe :autoplay="3000" indicator-color="white" >
+	<van-swipe :autoplay=' play ? play : 0 '  indicator-color="white" >
 		<van-swipe-item v-for='item in list' :key='item.id'>
 			<router-link tag='a' :to='item.url'>
 				<img :src="item.img" alt="">
@@ -10,14 +10,18 @@
 
 <script>
 	export default {
-		props : ['list'],
+		props : ['list','autoplay'],
 		data () {
 			return {
-				active : 0
+				active : 0,
+				play : null
 			}
 		},
 		created  () {
-			console.log(this.list)
+			console.log(this.autoplay)
+			if (this.autoplay) {
+				this.play = 3000
+			} 
 		},
 		//mounted () {},
 		methods : {

@@ -207,6 +207,20 @@ router.beforeEach((to,form,next) => {
 			})
 			next();
 		})
+	} else if (to.path == '/curfirm-order') {
+		http.post('/v1/wechat/sdk',{
+			url : location.href
+		}).then(res => {
+			wx.config({
+				debug : false,
+				appId : res.data.appId,
+				timestamp : res.data.timestamp,
+				nonceStr : res.data.nonceStr,
+				signature : res.data.signature,
+				jsApiList : ['chooseWXPay'],
+			})
+			next();
+		})
 	} else {
 		next()
 	}
@@ -215,20 +229,6 @@ router.beforeEach((to,form,next) => {
 router.afterEach((to, from) => {
 
 	document.title = to.meta.title;
-	if (to.path == '/curfirm-order' ) {
-		http.post('/v1/wechat/sdk',{
-			url : location.origin + location.pathname
-		}).then(res => {
-			wx.config({
-				debug : false,
-				appId : res.data.appId,
-				timestamp : res.data.timestamp,
-				nonceStr : res.data.nonceStr,
-				signature : res.data.signature,
-				jsApiList : wx_api_list,
-			})
-		})
-	} 
 	if (!Store.state.user) {
 		http.post('/v1/c_user/getInfo',{
 			

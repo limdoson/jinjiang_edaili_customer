@@ -16,7 +16,10 @@
 					:to='`/product-detail/${item.id}`' 
 					v-for='(item,index ) in list' 
 					:key='item.id' :style="{width : li_width}">
-					<img :src="item.cover" alt="">
+					<p class="s-b">
+						<span class="red">￥{{item.price}}</span>
+						<span>销量：{{item.fake_sale}}</span>
+					</p>
 				</router-link>
 			</ul>
 		</div>
