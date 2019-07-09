@@ -72,6 +72,7 @@ class Http extends Vue {
                 }
 				
             }).catch(err => {
+				this.utils.toast('系统错误')
                 console.log(err)
             })
 

@@ -97,7 +97,7 @@
 					recommend_id : state
 				}).then(res => {
 					this.initData();
-					console.log(res)
+					// console.log(res)
 					// this.initData();
 				})
 			} else {
@@ -110,7 +110,7 @@
 				this.http.post('/v1/c_index/getIndex',{
 					
 				}).then(res => {
-					console.log(res)
+					// console.log(res)
 					this.flash = res.data.data.flash;
 					this.nav = res.data.data.nav;
 					this.goods = res.data.data.goods.data;

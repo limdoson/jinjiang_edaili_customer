@@ -1,9 +1,13 @@
 <template>
 	<ul class="img-menu f-s" v-if='list'>
-		<router-link  tag='li' to='' v-for='item in list' :key='item.id'>
-			<img :src="item.img" alt="">
+		<router-link  tag='li' :to='item.url' v-for='item in list' :key='item.id' v-if='item.url'>
+			<img :src="item.img" alt="" v-if='item.img'>
 			<p>{{item.title}}</p>
 		</router-link>
+		<li v-else>
+			<img :src="item.img" alt="" v-if='item.img'>
+			<p>{{item.title}}</p>
+		</li>
 	</ul>
 </template>
 
