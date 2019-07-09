@@ -234,13 +234,7 @@ router.afterEach((to, from) => {
 		})
 	}
 	document.title = to.meta.title;
-	if (!Store.state.user) {
-		http.post('/v1/c_user/getInfo',{
-			
-		}).then(res => {
-			Store.commit('initUser',res.data)
-		})
-	}
+	
 })
 
 // router.onError((error) => {

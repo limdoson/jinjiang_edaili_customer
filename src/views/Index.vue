@@ -52,6 +52,9 @@
 			:list='column_list'
 			type='three-pics'
 			:num_of_pic='3'></product-ad> -->
+		<div class="mask c-c" v-if='showLoginMask'>
+			微信登录中，请稍后
+		</div>
 	</div>
 </template>
 
@@ -80,29 +83,34 @@
 				},
 				nav : null,
 				flash : null,
-				goods : null
+				goods : null,
+				showLoginMask : true,
 			}
 		},
 		created  () {
-			let params = location.search;
-			if (params) {
-				let str = params.substring(1);
-				let code = str.split('&')[0].split('=')[1];
-				let state = str.split('&')[1].split('=')[1];
-				if (state == 'STATE') {
-					state = null
-				}
+			if (this.$route.query && this.$route.query.code) {
 				this.http.post('/v1/wechat/userAutoWx',{
-					code : code,
-					recommend_id : state
+					code : this.$route.query.code
 				}).then(res => {
-					this.initData();
-					// console.log(res)
-					// this.initData();
+					setTimeout(() => {
+						this.initData();
+					},500)
 				})
 			} else {
 				this.initData()
 			}
+			// let params = location.search;
+			// if (params) {
+			// 	let str = params.substring(1);
+			// 	let code = str.split('&')[0].split('=')[1];
+			// 	let state = str.split('&')[1].split('=')[1];
+			// 	if (state == 'STATE') {
+			// 		state = null
+			// 	}
+			// 	
+			// } else {
+			// 	
+			// }
 		},
 		//mounted () {},
 		methods : {
@@ -114,6 +122,7 @@
 					this.flash = res.data.data.flash;
 					this.nav = res.data.data.nav;
 					this.goods = res.data.data.goods.data;
+					this.showLoginMask = false;
 				})
 			},
 			test () {
@@ -123,5 +132,15 @@
 	}
 </script>
 
-<style>
+<style scoped lang="less">
+	.mask {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: #fff;
+		color: orangered;
+		font-size: 13px;
+		text-align: center;
+	}
 </style>

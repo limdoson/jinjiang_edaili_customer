@@ -18,7 +18,7 @@
 				<i class="iconfont">&#xe600;</i>
 				<p>我的</p>
 			</router-link>
-			<router-link tag='li' to='/fx'  v-if='$store.state.user.type == 2'>
+			<router-link tag='li' to='/fx'  v-if='$store.state.user && $store.state.user.type == 2'>
 				<i class="iconfont">&#xe627;</i>
 				<p>分销中心</p>
 			</router-link>
@@ -36,7 +36,13 @@
 			}
 		},
 		created  () {
-			
+			if (!this.$store.state.user) {
+				this.http.post('/v1/c_user/getInfo',{
+					
+				}).then(res => {
+					this.$store.commit('initUser',res.data)
+				})
+			}
 		},
 		//mounted () {},
 		methods : {
