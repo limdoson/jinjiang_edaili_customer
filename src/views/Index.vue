@@ -8,11 +8,25 @@
 				background='#e8e8e8' />
 		</div> -->
 		<!-- 轮播图 -->
-		<Swiper :list='flash'></Swiper>
-		<img-menu></img-menu>
-		<Swiper :list='flash' :autoplay='3000'></Swiper>
-		<img-menu></img-menu>
-		<index-product-list></index-product-list>
+		<template v-if='flash && flash[0]'>
+			<Swiper :list='flash[0].children'></Swiper>
+		</template>
+		<!-- nav -->
+		<template v-if='nav && nav[0]'>
+			<img-menu :list='nav[0].children'></img-menu>
+		</template>
+		
+		<template v-if='flash && flash[1]'>
+			<Swiper :list='flash[1].children' :autoplay='3000' ></Swiper>
+		</template>
+		<template v-if='nav && nav[1]'>
+			<img-menu :list='nav[1].children'></img-menu>
+		</template>
+		
+		<template v-if='goods'>
+			<index-product-list ></index-product-list>
+		</template>
+		
 		<!-- 商品推荐 -->
 		<!-- <template >
 			<product-ad
@@ -64,8 +78,9 @@
 				options : {
 					width : 80
 				},
-				window : null,
-				flash : null
+				nav : null,
+				flash : null,
+				goods : null
 			}
 		},
 		created  () {
@@ -95,9 +110,10 @@
 				this.http.post('/v1/c_index/getIndex',{
 					
 				}).then(res => {
-						
-					this.flash = res.data.flash;
-					this.window = res.data.window;
+					console.log(res)
+					this.flash = res.data.data.flash;
+					this.nav = res.data.data.nav;
+					this.goods = res.data.data.goods.data;
 				})
 			},
 			test () {

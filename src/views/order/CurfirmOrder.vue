@@ -137,10 +137,11 @@
 					return;
 				}
 				let me = this;
+				console.log(this.goods_data)
 				this.http.post('/v1/c_order/createOrder',{
 					adrId : this.goods_data.adr.id,
 					payType : item.pay_type,
-					couponId : this.selected_coupon.id,
+					couponId : this.selected_coupon ? this.selected_coupon.id : null,
 					msg : this.remark,
 					goods : JSON.stringify(this.goods_data.goods)
 				}).then(res => {

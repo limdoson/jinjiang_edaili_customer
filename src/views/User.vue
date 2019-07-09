@@ -118,6 +118,12 @@
 		},
 		created  () {
 			// this.initData()
+			if (this.$store.state.user.realname == '') {
+				this.utils.msg('请完善账号信息',() => {
+					this.$router.push('/binding')
+				})
+				
+			}
 		},
 		//mounted () {},
 		methods : {
