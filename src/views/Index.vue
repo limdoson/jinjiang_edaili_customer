@@ -88,8 +88,9 @@
 			}
 		},
 		created  () {
-			console.log(this.$route)
+
 			if (this.$route.query && this.$route.query.code) {
+				this.showLoginMask = true;
 				this.http.post('/v1/wechat/userAutoWx',{
 					code : this.$route.query.code
 				}).then(res => {
@@ -104,6 +105,18 @@
 			// let params = location.search;
 			// if (params) {
 			// 	this.showLoginMask = true;
+			// 	let str = params.substring(1);
+			// 	let code = str.split('&')[0].split('=')[1];
+			// 	let state = str.split('&')[1].split('=')[1];
+			// 	if (state == 'STATE') {
+			// 		state = null
+			// 	}
+			// 	
+			// } else {
+			// 	
+			// }
+			// let params = location.search;
+			// if (params) {
 			// 	let str = params.substring(1);
 			// 	let code = str.split('&')[0].split('=')[1];
 			// 	let state = str.split('&')[1].split('=')[1];

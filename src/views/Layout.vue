@@ -36,7 +36,13 @@
 			}
 		},
 		created  () {
-			
+			// if (!this.$store.state.user) {
+			// 	this.http.post('/v1/c_user/getInfo',{
+			// 		
+			// 	}).then(res => {
+			// 		this.$store.commit('initUser',res.data)
+			// 	})
+			// }
 		},
 		//mounted () {},
 		methods : {
