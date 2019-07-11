@@ -1,57 +1,66 @@
 <template>
-	<ul class="index-product-list s-b">
-		<router-link tag='li' to=''>
-			<img src="https://laravel.linxmwx.cn/uploads/img/20190705133031-5d1ee077b97b3.jpg" alt="">
-			<p class="name">商品名称商品名称商品名称商品名称商品名称</p>
-			<p class="price s-b">
-				<span>
-					<span class="flag">￥</span><span class="red">10.2</span>
-				</span>
-				<span>
-					已售100件
-				</span>
-			</p>
-		</router-link>
-		<router-link tag='li' to=''>
-			<img src="https://laravel.linxmwx.cn/uploads/img/20190705133031-5d1ee077b97b3.jpg" alt="">
-			<p class="name">商品名称商品名称商品名称商品名称商品名称</p>
-			<p class="price s-b">
-				<span>
-					<span class="flag">￥</span><span class="red">10.2</span>
-				</span>
-				<span>
-					已售100件
-				</span>
-			</p>
-		</router-link>
-		<router-link tag='li' to=''>
-			<img src="https://laravel.linxmwx.cn/uploads/img/20190705133031-5d1ee077b97b3.jpg" alt="">
-			<p class="name">商品名称商品名称商品名称商品名称商品名称</p>
-			<p class="price s-b">
-				<span>
-					<span class="flag">￥</span><span class="red">10.2</span>
-				</span>
-				<span>
-					已售100件
-				</span>
-			</p>
-		</router-link>
-		<router-link tag='li' to=''>
-			<img src="https://laravel.linxmwx.cn/uploads/img/20190705133031-5d1ee077b97b3.jpg" alt="">
-			<p class="name">商品名称商品名称商品名称商品名称商品名称</p>
-			<p class="price s-b">
-				<span>
-					<span class="flag">￥</span><span class="red">10.2</span>
-				</span>
-				<span>
-					已售100件
-				</span>
-			</p>
-		</router-link>
-	</ul>
+	<van-list
+		v-model="loading"
+		:finished="finished"
+		finished-text="没有更多了"
+		@load="onLoad">
+		<ul class="index-product-list s-b" v-if='list'>
+			<router-link tag='li' :to="'/product-detail/'+item.id" v-for='item in list' :key='item.id'>
+				<img :src="item.cover" alt="">
+				<p class="name">{{item.name}}</p>
+				<p class="price s-b">
+					<span>
+						<span class="flag">￥</span><span class="red">{{item.price}}</span>
+					</span>
+					<span>
+						已售{{item.fake_sale}}件
+					</span>
+				</p>
+			</router-link>
+		</ul>
+	</van-list>
+	
 </template>
 
 <script>
+	export default {
+		// props : ['list'],
+		data () {
+			return {
+				list : null,
+				loading: false,
+				finished: false,
+				page : 1,
+				limit : 10
+			}
+		},
+		created () {
+			
+		},
+		methods: {
+			onLoad() {
+				this.http.post('/v1/c_index/getIndex',{
+					page : this.page,
+					limit : this.limit
+				}).then(res => {
+					let data = res.data.data.goods.data;
+					if (data.length) {
+						if (this.page == 1) {
+							this.list = data;
+						} else {
+							this.list = this.list.concat(data);
+						}
+						this.page ++
+						this.loading = false;
+						this.finished = false;
+					} else {
+						this.loading = false;
+						this.finished = true;
+					}
+				})
+			}
+		},
+	}
 </script>
 
 <style scoped lang="less">

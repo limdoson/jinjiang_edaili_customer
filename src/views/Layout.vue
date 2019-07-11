@@ -18,7 +18,7 @@
 				<i class="iconfont">&#xe600;</i>
 				<p>我的</p>
 			</router-link>
-			<router-link tag='li' to='/fx' >
+			<router-link tag='li' to='/fx'  v-if='$store.state.user && $store.state.user.type == 2'>
 				<i class="iconfont">&#xe627;</i>
 				<p>分销中心</p>
 			</router-link>

@@ -187,6 +187,12 @@ let router = new Router({
 				title : '提现记录'
 			},
 			component : () => import('./views/fx/CashRecord')
+		},{//绑定用户信息
+			path : '/binding',
+			meta :{
+				title : '完善账号信息'
+			},
+			component : () => import('./views/user/Binding')
 		}
     ]
 })
@@ -207,9 +213,15 @@ router.beforeEach((to,form,next) => {
 			})
 			next();
 		})
-	} else if (to.path == '/curfirm-order') {
+	} else {
+		next()
+	}
+})
+
+router.afterEach((to, from) => {
+	if (to.path == '/curfirm-order') {
 		http.post('/v1/wechat/sdk',{
-			url : location.href
+			url : location.origin + '/customer/curfirm-order'
 		}).then(res => {
 			wx.config({
 				debug : false,
@@ -219,22 +231,17 @@ router.beforeEach((to,form,next) => {
 				signature : res.data.signature,
 				jsApiList : ['chooseWXPay'],
 			})
-			next();
 		})
-	} else {
-		next()
 	}
-})
-
-router.afterEach((to, from) => {
-
 	document.title = to.meta.title;
-	if (!Store.state.user) {
-		http.post('/v1/c_user/getInfo',{
-			
-		}).then(res => {
-			Store.commit('initUser',res.data)
-		})
+	if (to.path != '/') {
+		if (!Store.state.user) {
+			http.post('/v1/c_user/getInfo',{
+				
+			}).then(res => {
+				Store.commit('initUser',res.data.user);
+			})
+		}
 	}
 })
 

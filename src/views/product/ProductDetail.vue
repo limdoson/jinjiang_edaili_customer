@@ -192,13 +192,9 @@
 					this.http.post('/v1/c_order/confirmOrder',{
 						goods : JSON.stringify(data)
 					}).then(res => {
+						console.log(1)
 						localStorage.setItem('goods',JSON.stringify(res.data));
-						this.$router.push({
-							path : '/curfirm-order',
-							// query : {
-							// 	data : JSON.stringify(res.data)
-							// }
-						})
+						this.$router.push('/curfirm-order')
 					})
 				} else {
 					this.utils.toast('请选择商品属性')

@@ -8,11 +8,25 @@
 				background='#e8e8e8' />
 		</div> -->
 		<!-- 轮播图 -->
-		<Swiper :list='flash'></Swiper>
-		<img-menu></img-menu>
-		<Swiper :list='flash' :autoplay='3000'></Swiper>
-		<img-menu></img-menu>
-		<index-product-list></index-product-list>
+		<template v-if='flash && flash[0]'>
+			<Swiper :list='flash[0].children'></Swiper>
+		</template>
+		<!-- nav -->
+		<template v-if='nav && nav[0]'>
+			<img-menu :list='nav[0].children'></img-menu>
+		</template>
+		
+		<template v-if='flash && flash[1]'>
+			<Swiper :list='flash[1].children' :autoplay='3000' ></Swiper>
+		</template>
+		<template v-if='nav && nav[1]'>
+			<img-menu :list='nav[1].children'></img-menu>
+		</template>
+		
+		<template v-if='goods'>
+			<index-product-list ></index-product-list>
+		</template>
+		
 		<!-- 商品推荐 -->
 		<!-- <template >
 			<product-ad
@@ -38,6 +52,9 @@
 			:list='column_list'
 			type='three-pics'
 			:num_of_pic='3'></product-ad> -->
+		<div class="mask c-c" v-if='showLoginMask'>
+			微信登录中，请稍后
+		</div>
 	</div>
 </template>
 
@@ -64,30 +81,39 @@
 				options : {
 					width : 80
 				},
-				window : null,
-				flash : null
+				nav : null,
+				flash : null,
+				goods : null,
+				showLoginMask : false,
 			}
 		},
 		created  () {
-			let params = location.search;
-			if (params) {
-				let str = params.substring(1);
-				let code = str.split('&')[0].split('=')[1];
-				let state = str.split('&')[1].split('=')[1];
-				if (state == 'STATE') {
-					state = null
-				}
+			console.log(this.$route)
+			if (this.$route.query && this.$route.query.code) {
 				this.http.post('/v1/wechat/userAutoWx',{
-					code : code,
-					recommend_id : state
+					code : this.$route.query.code
 				}).then(res => {
-					this.initData();
-					console.log(res)
-					// this.initData();
+					setTimeout(() => {
+						this.initData();
+					},500)
 				})
+				
 			} else {
 				this.initData()
 			}
+			// let params = location.search;
+			// if (params) {
+			// 	this.showLoginMask = true;
+			// 	let str = params.substring(1);
+			// 	let code = str.split('&')[0].split('=')[1];
+			// 	let state = str.split('&')[1].split('=')[1];
+			// 	if (state == 'STATE') {
+			// 		state = null
+			// 	}
+			// 	
+			// } else {
+			// 	
+			// }
 		},
 		//mounted () {},
 		methods : {
@@ -95,9 +121,21 @@
 				this.http.post('/v1/c_index/getIndex',{
 					
 				}).then(res => {
-						
-					this.flash = res.data.flash;
-					this.window = res.data.window;
+					// console.log(res)
+					this.flash = res.data.data.flash;
+					this.nav = res.data.data.nav;
+					this.goods = res.data.data.goods.data;
+					if (this.showLoginMask) {
+						this.showLoginMask = false;
+					}
+					
+					if (!this.$store.state.user) {
+						this.http.post('/v1/c_user/getInfo',{
+							
+						}).then(res => {
+							this.$store.commit('initUser',res.data)
+						})
+					}
 				})
 			},
 			test () {
@@ -107,5 +145,15 @@
 	}
 </script>
 
-<style>
+<style scoped lang="less">
+	.mask {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: #fff;
+		color: orangered;
+		font-size: 13px;
+		text-align: center;
+	}
 </style>

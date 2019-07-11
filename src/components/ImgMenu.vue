@@ -1,42 +1,26 @@
 <template>
-	<ul class="img-menu f-s">
-		<router-link  tag='li' to=''>
-			<img src="https://laravel.linxmwx.cn/uploads/img/20190705133031-5d1ee077b97b3.jpg" alt="">
-			<p>导航名称</p>
+	<ul class="img-menu f-s" v-if='list'>
+		<router-link  tag='li' :to='item.url' v-for='item in list' :key='item.id' v-if='item.url'>
+			<img :src="item.img" alt="" v-if='item.img'>
+			<p>{{item.title}}</p>
 		</router-link>
-		<router-link  tag='li' to=''>
-			<img src="https://laravel.linxmwx.cn/uploads/img/20190705133031-5d1ee077b97b3.jpg" alt="">
-			<p>导航名称</p>
-		</router-link>
-		<router-link  tag='li' to=''>
-			<img src="https://laravel.linxmwx.cn/uploads/img/20190705133031-5d1ee077b97b3.jpg" alt="">
-			<p>导航名称</p>
-		</router-link>
-		<router-link  tag='li' to=''>
-			<img src="https://laravel.linxmwx.cn/uploads/img/20190705133031-5d1ee077b97b3.jpg" alt="">
-			<p>导航名称</p>
-		</router-link>
-		<router-link  tag='li' to=''>
-			<img src="https://laravel.linxmwx.cn/uploads/img/20190705133031-5d1ee077b97b3.jpg" alt="">
-			<p>导航名称</p>
-		</router-link>
-		<router-link  tag='li' to=''>
-			<img src="https://laravel.linxmwx.cn/uploads/img/20190705133031-5d1ee077b97b3.jpg" alt="">
-			<p>导航名称</p>
-		</router-link>
-		<router-link  tag='li' to=''>
-			<img src="https://laravel.linxmwx.cn/uploads/img/20190705133031-5d1ee077b97b3.jpg" alt="">
-			<p>导航名称</p>
-		</router-link>
+		<li v-else>
+			<img :src="item.img" alt="" v-if='item.img'>
+			<p>{{item.title}}</p>
+		</li>
 	</ul>
 </template>
 
 <script>
 	export default {
+		props : ['list'],
 		data () {
 			return {
 				
 			}
+		},
+		created () {
+			
 		}
 	}
 </script>
@@ -52,7 +36,8 @@
 			text-align: center;
 			margin-bottom: 10px;
 			img {
-				width: 40px;
+				width: 50px;
+				height: 50px;
 				border-radius: 50%;
 			}
 			p {
